@@ -1,0 +1,29 @@
+.header-topline {
+    background-color: #394140;
+    color: #FFFFFF;
+    font-size: 20px;
+    padding: 10px;
+    border-radius: 5px;
+    margin: 3px;
+}
+
+.header-topline a {
+     color: #FFFFFF;
+ }
+
+.header-topline a {
+    text-decoration: none;
+}
+
+.header-topline a:hover{
+    color: #FFFFFF;
+    text-decoration: underline;
+}
+
+.authorization {
+    float: right;
+}
+
+.lang {
+    float: left;
+}

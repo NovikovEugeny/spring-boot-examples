@@ -1,0 +1,32 @@
+body {
+	color: #000000;
+}
+
+.welcome {
+	text-align: center;
+}
+
+.welcome h1 {
+	color: #009999;
+}
+
+.search {
+	margin-top: 75px;
+}
+
+.send-json-button {
+	margin-top: 75px;
+}
+
+.search p {
+	margin-top: 45px;
+}
+
+.receive-json, .receive-json-array {
+	margin-top: 75px;
+}
+
+.sign-in-data, .sign-up-data {
+	margin-left: 25px;
+	margin-top: 25px;
+}

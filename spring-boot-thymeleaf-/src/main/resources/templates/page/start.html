@@ -1,0 +1,324 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8"/>
+    <link rel="stylesheet" th:href="@{/css/main.css}" href="../../static/css/main.css"/>
+    <link rel="stylesheet" th:href="@{/css/bootstrap.css}" href="../../static/css/bootstrap.css"/>
+    <link rel="stylesheet" th:href="@{/css/start.css}" href="../../static/css/start.css"/>
+    <script src="../../static/js/jquery-3.2.0.js" th:src="@{/js/jquery-3.2.0.js}"></script>
+    <script src="../../static/js/bootstrap.js" th:src="@{/js/bootstrap.js}"></script>
+    <title>Title</title>
+</head>
+<body>
+    <header>
+        <div class="header-topline">
+            <div class="container">
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="authorization">
+                            <a onclick="showSignIn()" href="#">sign in</a> /
+                            <a onclick="showSignUp()" href="#">sign up</a>
+                        </div>
+                        <div class="lang">
+                            <a href="?language=rs">ru</a> /
+                            <a href="?language=en">en</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </header>
+    <section class="welcome">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-4">
+                    <div class="js-message">
+                        <h1 th:text="#{greeting}"></h1>
+                        <p>js method with alert:</p>
+                        <button class="btn-lg btn-info" onclick="message()" th:text="#{button.message}"></button>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="search">
+                        <p>GET ajax request:</p>
+                        <div class="form-inline">
+                            <input class="form-control" type="text" id="check-name" placeholder="name"/>
+                            <button onclick="check()" class="btn btn-primary">check name</button>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="send-json-button">
+                        <p>post ajax request(send json obj):</p>
+                        <button onclick="send()" class="btn btn-primary">send json</button>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-4">
+                    <div class="receive-json">
+                        <p>get ajax(receive json obj):</p>
+                        <div class="form-inline">
+                            <input class="form-control" type="text" id="receive-name" placeholder="name"/>
+                            <button onclick="receive()" class="btn btn-primary">receive json</button>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="receive-json-array">
+                        <p>get ajax(receive json array):</p>
+                        <button onclick="receiveArray()" class="btn btn-primary">receive json array</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Modal user-description-->
+    <div class="modal fade" id="modal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h4 class="modal-title" id="myModalLabel1">User description:</h4>
+                </div>
+                <div class="user-data">
+                    <ul class="list-group">
+                        <li class="list-group-item" id="id"></li>
+                        <li class="list-group-item" id="name"></li>
+                        <li class="list-group-item" id="age"></li>
+                        <li class="list-group-item" id="login"></li>
+                        <li class="list-group-item" id="role"></li>
+                    </ul>
+                </div>
+                <div class="modal-footer">
+                    <button type="submit" class="btn-success btn-lg" data-dismiss="modal">close</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal user list-->
+    <div class="modal fade" id="modal2" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h4 class="modal-title" id="myModalLabel11">User list:</h4>
+                </div>
+                <div class="user-list"></div>
+                <div class="modal-footer">
+                    <button type="submit" class="btn-success btn-lg" data-dismiss="modal">close</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal sign in-->
+    <div class="modal fade" id="modal-sign-in" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h4 class="modal-title" id="myModalLabel111">form</h4>
+                </div>
+                <div class="sign-in-data">
+                    <form action="/sign-in" th:action="@{/sign-in}" method="post">
+                        <p>login: <input type="text" name="login" /></p>
+                        <p><button type="submit">submit</button> <button type="reset">reset</button></p>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="submit" class="btn-success btn-lg" data-dismiss="modal">close</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal sign up-->
+    <div class="modal fade" id="modal-sign-up" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h4 class="modal-title" id="myModalLabel1111">form</h4>
+                </div>
+                <div class="sign-up-data">
+                    <form action="sign-up" th:action="@{/sign-up}" th:object="${user}" method="post">
+                        <p>name: <input type="text" th:field="*{name}" /></p>
+                        <p>age: <input type="text" th:field="*{age}" value="" /></p>
+                        <p>login: <input type="text" th:field="*{login}" /></p>
+                        <p>role: <input type="text" th:field="*{role}" /></p>
+                        <p><input type="submit" value="Submit" /> <input type="reset" value="Reset" /></p>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="submit" class="btn-success btn-lg" data-dismiss="modal">close</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!--
+    <section class="user-list">
+        <div class="container">
+            <h1>List of users:</h1>
+            <div class="table-responsive">
+                <table class="table table-bordered">
+                    <thead>
+                        <tr>
+                            <th>id</th>
+                            <th>name</th>
+                            <th>age</th>
+                            <th>login</th>
+                            <th>role</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr th:each="user : ${users}">
+                            <td th:text="${user.id}"></td>
+                            <td th:text="${user.name}"></td>
+                            <td th:text="${user.age}"></td>
+                            <td th:text="${user.login}"></td>
+                            <td th:text="${user.role}"></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </section>
+-->
+<script type="text/javascript">
+/*
+    $(document).ready(function() {
+        $("#locales").change(function () {
+            var selectedOption = $('#locales').val();
+            if (selectedOption != ''){
+                window.location.replace('?lang=' + selectedOption);
+            }
+        });
+    });
+*/
+
+    function setEn() {
+        window.location.replace('?language=' + 'en');
+    }
+
+    function setRu() {
+        window.location.replace('?language=' + 'rs');
+    }
+
+    function message() {
+        alert("Hello world!!!");
+    }
+
+    function showSignIn() {
+        $(document).ready(function () {
+            $("#modal-sign-in").modal('show');
+        });
+    }
+
+    function showSignUp() {
+        $(document).ready(function () {
+            $("#modal-sign-up").modal('show');
+        });
+    }
+
+    function check() {
+        $.ajax({
+            async : true,
+            cache : false,
+            url: '/check-name',
+            method: 'GET',
+            data: {'name': $('#check-name').val()},
+            error: function (message) {
+                alert(message);
+            },
+            success: function (data) {
+                alert(data);
+            }
+        });
+    }
+
+    function send() {
+        // simple js object, JSON.stringify to json 
+        var obj = {'name':'Andrey', 'age':20, 'login':'andr@mail.ru', 'role':'user'};
+
+        $.ajax({
+            async : true,
+            cache : false,
+            url: '/send-json-obj',
+            type: 'POST',
+            data: JSON.stringify(obj),
+            contentType: "application/json; charset=utf-8",
+            dataType:'json',
+            success: function (data) {
+                alert("ok");
+            },
+            error: function (message) {
+                alert('problems');
+            }
+        });
+    } 
+
+    function receive() {
+
+        $.ajax({
+            async : true,
+            cache : false,
+            url: '/receive-json-obj',
+            type: 'GET',
+            data: {'name':$('#receive-name').val()},
+            success: function (data) {//данные приходят в формате js объекта, null с сервера -> var obj = {}(not null), поля null
+            if(data.id != null) {
+
+                $('#id').text(data.id);
+                $('#name').text(data.name);
+                $('#age').text(data.age);
+                $('#login').text(data.login);
+                $('#role').text(data.role);
+
+                $(document).ready(function () {
+                    $("#modal").modal('show');
+                });
+
+            } else {
+                alert('no such user');
+            }
+        },
+        error: function (message) {
+            alert('problems');
+        }
+    });
+    }
+
+    function receiveArray() {
+
+        $.ajax({
+            async : true,
+            cache : false,
+            url: '/receive-json-array',
+            type: 'GET',
+            success: function (data) {//данные приходят в формате js объекта, null с сервера -> var obj = {}(not null), поля null
+            $(document).ready(function() {
+                $(".user-list").empty();
+                $.each(data, function(i, obj) {
+                    $(".user-list").append(
+                        "<h1>User" + (i + 1) + ":</h1>" +
+                        "<ul>" +
+                        "<li>" + obj.id + "</li>" +
+                        "<li>" + obj.name + "</li>" +
+                        "<li>" + obj.age + "</li>" +
+                        "<li>" + obj.login + "</li>" +
+                        "<li>" + obj.role + "</li>" +
+                        "</ul>"
+                        );
+                });
+                $("#modal2").modal('show');
+            });
+        },
+        error: function (message) {
+            alert('problems');
+        }
+    });
+    }
+</script>
+
+</body>
+</html>
